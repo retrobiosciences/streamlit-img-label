@@ -146,7 +146,7 @@ class ImageDirManager:
         self._files = []
         self._annotations_files = []
 
-    def get_all_files(self, allow_types=["png", "jpg", "jpeg", "tiff"]):
+    def get_all_files(self, allow_types=["png", "jpg", "jpeg"]):
         allow_types += [i.upper() for i in allow_types]
         mask = ".*\.[" + "|".join(allow_types) + "]"
         self._files = [

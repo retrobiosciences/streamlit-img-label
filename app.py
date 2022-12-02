@@ -2,13 +2,15 @@ import streamlit as st
 import os
 from streamlit_img_label import st_img_label
 from streamlit_img_label.manage import ImageManager, ImageDirManager
+from streamlit_img_label.directorypicker import st_directory_picker
+
 
 def run(img_dir, labels):
     st.set_option("deprecation.showfileUploaderEncoding", False)
     idm = ImageDirManager(img_dir)
 
     if "files" not in st.session_state:
-        st.session_state["files"] = idm.get_all_files()
+        st.session_state["files"] = sorted(idm.get_all_files())
         st.session_state["annotation_files"] = idm.get_exist_annotation_files()
         st.session_state["image_index"] = 0
     else:
@@ -16,7 +18,7 @@ def run(img_dir, labels):
         idm.set_annotation_files(st.session_state["annotation_files"])
     
     def refresh():
-        st.session_state["files"] = idm.get_all_files()
+        st.session_state["files"] = sorted(idm.get_all_files())
         st.session_state["annotation_files"] = idm.get_exist_annotation_files()
         st.session_state["image_index"] = 0
 
@@ -73,7 +75,7 @@ def run(img_dir, labels):
     img_file_name = idm.get_image(st.session_state["image_index"])
     img_path = os.path.join(img_dir, img_file_name)
     im = ImageManager(img_path)
-    img = im.get_img()
+    # img = im.get_img()
     resized_img = im.resizing_img()
     resized_rects = im.get_resized_rects()
     rects = st_img_label(resized_img, box_color="red", rects=resized_rects)
@@ -105,5 +107,6 @@ def run(img_dir, labels):
                 im.set_annotation(i, select_label)
 
 if __name__ == "__main__":
-    custom_labels = ["", "dog", "cat"]
-    run("img_dir", custom_labels)
+    custom_labels = ["colony", "big colony", "dead cells"]
+    path = st_directory_picker()
+    run(path, custom_labels)

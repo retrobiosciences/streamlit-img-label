@@ -73,7 +73,7 @@ if not _RELEASE:
     import streamlit as st
 
     st.set_option("deprecation.showfileUploaderEncoding", False)
-    custom_labels = ["", "dog", "cat"]
+    custom_labels = ["", "colony"]
 
     img_dir = "img_dir"
 
